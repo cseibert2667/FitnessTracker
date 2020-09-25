@@ -16,27 +16,37 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+  useNewUrlParser: true,
+});
 
-// html routes 
-app.get("/", (req,res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"))
-})
+// html routes
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
-app.get("/stats", (req,res) => {
-  res.sendFile(path.join(__dirname, "public", "stats.html"))
-})
+app.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "stats.html"));
+});
 
-app.get("/exercise", (req,res) => {
-  res.sendFile(path.join(__dirname, "public", "exercise.html"))
-})
+app.get("/exercise", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "exercise.html"));
+});
 
 // api routes
-app.get("/api/workouts", (req,res) => {
-  
-})
+
+app.get("/api/workouts", (req, res) => {
+  // sorts docs by day then finds only the first one (i.e. gets the most recent entry)
+  db.Workout.find({}).sort({ day: -1 }).limit(1)
+    .then((dbWorkout) => {
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}!`);
-  });  
+  console.log(`App running on port ${PORT}!`);
+});
