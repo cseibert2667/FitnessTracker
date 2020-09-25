@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
 });
 
-// html routes
+// -------- html routes --------
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
@@ -33,10 +33,10 @@ app.get("/exercise", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "exercise.html"));
 });
 
-// api routes
+// -------- api routes --------
 
+// sorts docs by day then finds only the first one (i.e. gets the most recent entry)
 app.get("/api/workouts", (req, res) => {
-  // sorts docs by day then finds only the first one (i.e. gets the most recent entry)
   db.Workout.find({}).sort({ day: -1 }).limit(1)
     .then((dbWorkout) => {
       res.json(dbWorkout);
@@ -46,8 +46,8 @@ app.get("/api/workouts", (req, res) => {
     });
 });
 
+// gets last 7 workouts (assumed 1-week range based on buildout of charts)
 app.get("/api/workouts/range", (req,res) => {
-  // gets last 7 workouts (assumed 1-week range based on buildout of charts)
   db.Workout.find({}).sort({ day: -1 }).limit(7)
   .then(dbWorkout => {
     res.json(dbWorkout);
@@ -57,6 +57,7 @@ app.get("/api/workouts/range", (req,res) => {
   });
 });
 
+// updates the most recent workout by adding a new exercise
 app.put("/api/workouts/:id", (req,res) => {
   db.Workout.updateOne( {_id: req.params.id }, {$push: {exercises: [
     {
@@ -78,6 +79,7 @@ app.put("/api/workouts/:id", (req,res) => {
 });
 });
 
+// creates a new workout
 app.post("/api/workouts", (req,res) => {
   db.Workout.create(req.body).then(dbWorkout => {
     res.json(dbWorkout);
