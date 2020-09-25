@@ -57,6 +57,28 @@ app.get("/api/workouts/range", (req,res) => {
   });
 });
 
+app.put("/api/workouts/:id", (req,res) => {
+  db.Workout.updateOne( {_id: req.params.id }, {$push: {exercises: [
+    {
+      type: req.body.type,
+      name: req.body.name,
+      weight: req.body.weight,
+      sets: req.body.sets,
+      reps: req.body.reps,
+      duration: req.body.duration,
+      distance: req.body.distance
+    }
+  ]}
+}).then(dbWorkout => {
+  console.log(dbWorkout)
+  res.json(dbWorkout);
+})
+.catch(err => {
+  res.json(err)
+});
+});
+
+
 // Start server
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
