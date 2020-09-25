@@ -47,8 +47,8 @@ app.get("/api/workouts", (req, res) => {
 });
 
 app.get("/api/workouts/range", (req,res) => {
-  // gets all workouts
-  db.Workout.find({})
+  // gets last 7 workouts (assumed 1-week range based on buildout of charts)
+  db.Workout.find({}).sort({ day: -1 }).limit(7)
   .then(dbWorkout => {
     res.json(dbWorkout);
   })
