@@ -46,6 +46,17 @@ app.get("/api/workouts", (req, res) => {
     });
 });
 
+app.get("/api/workouts/range", (req,res) => {
+  // gets all workouts
+  db.Workout.find({})
+  .then(dbWorkout => {
+    res.json(dbWorkout);
+  })
+  .catch(err => {
+    res.json(err);
+  });
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
