@@ -10,16 +10,17 @@
 ## Description
 A simple web app running on node & utilizing MongoDB w/ Mongoose that allows the user to create and track daily workouts. 
 
-## Usage
+## Installation
 You must first run `npm i` to install the apps dependencies, then start up the application by running `node server.js`. By default, the app will run at http://localhost:8080; this can be adjusted on line 8 of the 'server.js' file. If you would like to seed the database with some basic workouts, run `npm run seed` in the terminal - this inserts the values defined in 'seeders/seed.js'. 
+
+## Usage
 
 Once the app is running, it will display your most recent workout on the home page (if applicable). From here you can create a new workout, or continue your current workout. In both cases, you will be prompted to enter in new exercise information - once entered, you can click "Complete" to return to the home page, or "Add Exercise" to submit the entry and add another. 
 
 To view your last weeks worth of exercises, click "Dashboard". 
 
 ## Examples:
-Live App (deployed using MongoDB Atlas on Heroku): 
-
+[Live App](https://frozen-cove-32421.herokuapp.com/) - deployed using MongoDB Atlas w/ Heroku
 
 Home page view:
 
